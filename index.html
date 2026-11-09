@@ -4,65 +4,50 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VIP Launcher</title>
-<meta name="description" content="One-tap launcher that opens a Roblox VIP private server via the roblox:// deep link, bypassing the blocked web page.">
 <style>
-:root{
-  --bg:#f3f4f8;--card:#ffffff;--fg:#15161c;--muted:#6b7280;--line:#e6e8ee;
-  --accent:#e2231a;--accent2:#ff6a5d;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#0d0e13;--card:#171a22;--fg:#eef0f6;--muted:#9aa0b0;--line:#262a35;}
-}
-:root[data-theme="dark"]{--bg:#0d0e13;--card:#171a22;--fg:#eef0f6;--muted:#9aa0b0;--line:#262a35;}
+:root{--bg:#f3f4f8;--card:#fff;--fg:#15161c;--muted:#6b7280;--line:#e6e8ee;--accent:#e2231a;--accent2:#ff6a5d}
+@media (prefers-color-scheme:dark){:root{--bg:#0d0e13;--card:#171a22;--fg:#eef0f6;--muted:#9aa0b0;--line:#262a35}}
 *{box-sizing:border-box}
-body{margin:0;min-height:100dvh;background:var(--bg);color:var(--fg);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  display:flex;align-items:center;justify-content:center;padding:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;
-  width:100%;max-width:380px;padding:28px 22px;text-align:center;
-  box-shadow:0 12px 40px rgba(0,0,0,.18)}
-h1{font-size:21px;margin:0 0 4px}
-.sub{color:var(--muted);font-size:14px;margin:0 0 22px}
-.btn{display:block;width:100%;border:0;cursor:pointer;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
-  font-size:19px;font-weight:800;padding:18px;border-radius:14px;text-decoration:none;
-  margin-bottom:12px;transition:transform .08s}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;align-items:center;justify-content:center;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;width:100%;max-width:380px;padding:28px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+h1{font-size:21px;margin:0 0 4px}.sub{color:var(--muted);font-size:14px;margin:0 0 22px;line-height:1.5}
+.btn{display:none;width:100%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:19px;font-weight:800;padding:18px;border-radius:14px;text-decoration:none;margin-bottom:12px}
 .btn:active{transform:scale(.97)}
-.alt{display:block;color:var(--muted);font-size:13px;text-decoration:none;
-  border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
-.meta{color:var(--muted);font-size:12px;word-break:break-all;margin-top:14px;line-height:1.5}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;
-  margin-right:6px;animation:p 1s infinite}
-@keyframes p{50%{opacity:.3}}
+.alt{display:none;color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:12px}
+.meta{color:var(--muted);font-size:12px;word-break:break-all;margin-top:14px}
+code{background:var(--line);padding:2px 6px;border-radius:6px;font-size:12px}
 </style>
 </head>
 <body>
 <div class="card">
-  <h1>Vào VIP Server</h1>
-  <p class="sub" id="status"><span class="dot"></span>Đang mở Roblox…</p>
-  <a class="btn" id="go" href="#">Mở Roblox</a>
-  <a class="alt" id="alt" href="#">Không mở được? Bấm cách 2 (scheme)</a>
-  <div class="meta" id="meta"></div>
+<h1>Vào VIP Server</h1>
+<p class="sub" id="status">…</p>
+<a class="btn" id="go" href="#">Mở Roblox</a>
+<a class="alt" id="alt" href="#">Thử cách 2 (scheme)</a>
+<div class="meta" id="meta"></div>
 </div>
 <script>
 (function(){
-  var q=new URLSearchParams(location.search);
-  var place=(q.get('place')||q.get('placeId')||'2753915549').trim();
-  var code=(q.get('code')||q.get('linkCode')||'21809199765595202642521561370185').trim();
-  var ua=navigator.userAgent||'';
-  var android=/android/i.test(ua);
-  var scheme='roblox://placeId='+place+'&linkCode='+code;
-  var intent='intent://placeId='+place+'&linkCode='+code+'#Intent;scheme=roblox;package=com.roblox.client;end';
-  var primary=android?intent:scheme;
-  var go=document.getElementById('go');
-  var alt=document.getElementById('alt');
-  go.href=primary; alt.href=scheme;
-  document.getElementById('meta').textContent='placeId '+place+'  ·  linkCode '+code.slice(0,10)+'…';
-  function fire(u){ try{location.href=u;}catch(e){} }
-  go.addEventListener('click',function(e){e.preventDefault();fire(primary);});
-  alt.addEventListener('click',function(e){e.preventDefault();fire(scheme);});
-  setTimeout(function(){fire(primary);},500);
-  setTimeout(function(){document.getElementById('status').textContent='Chưa mở? Bấm nút bên dưới.';},2600);
+var q=new URLSearchParams(location.search);
+var place=(q.get('place')||q.get('placeId')||'').trim();
+var code=(q.get('code')||q.get('linkCode')||'').trim();
+var st=document.getElementById('status'),go=document.getElementById('go'),alt=document.getElementById('alt'),meta=document.getElementById('meta');
+if(!place||!code){
+  st.innerHTML='Thiếu tham số. Mở link dạng:<br><code>?place=&lt;placeId&gt;&code=&lt;linkCode&gt;</code>';
+  return;
+}
+var android=/android/i.test(navigator.userAgent||'');
+var scheme='roblox://placeId='+place+'&linkCode='+code;
+var intent='intent://placeId='+place+'&linkCode='+code+'#Intent;scheme=roblox;package=com.roblox.client;end';
+var primary=android?intent:scheme;
+go.href=primary;alt.href=scheme;go.style.display='block';alt.style.display='block';
+meta.textContent='placeId '+place;
+function fire(u){try{location.href=u;}catch(e){}}
+go.onclick=function(e){e.preventDefault();fire(primary);};
+alt.onclick=function(e){e.preventDefault();fire(scheme);};
+st.textContent='Đang mở Roblox…';
+setTimeout(function(){fire(primary);},500);
+setTimeout(function(){st.textContent='Chưa mở? Bấm nút bên dưới.';},2600);
 })();
 </script>
 </body>
