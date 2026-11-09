@@ -2,52 +2,99 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>VIP Launcher</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f3f4f8;--card:#fff;--fg:#15161c;--muted:#6b7280;--line:#e6e8ee;--accent:#e2231a;--accent2:#ff6a5d}
-@media (prefers-color-scheme:dark){:root{--bg:#0d0e13;--card:#171a22;--fg:#eef0f6;--muted:#9aa0b0;--line:#262a35}}
-*{box-sizing:border-box}
-body{margin:0;min-height:100dvh;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;align-items:center;justify-content:center;padding:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;width:100%;max-width:380px;padding:28px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.18)}
-h1{font-size:21px;margin:0 0 4px}.sub{color:var(--muted);font-size:14px;margin:0 0 22px;line-height:1.5}
-.btn{display:none;width:100%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:19px;font-weight:800;padding:18px;border-radius:14px;text-decoration:none;margin-bottom:12px}
-.btn:active{transform:scale(.97)}
-.alt{display:none;color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:12px}
-.meta{color:var(--muted);font-size:12px;word-break:break-all;margin-top:14px}
-code{background:var(--line);padding:2px 6px;border-radius:6px;font-size:12px}
+:root{
+  --bg0:#0a0b10;--bg1:#12141d;--card:rgba(23,26,36,.72);--line:rgba(255,255,255,.08);
+  --fg:#f2f4fa;--muted:#99a0b2;--accent:#ff3b30;--accent2:#ff7a3d;--ring:rgba(255,59,48,.35);
+}
+@media (prefers-color-scheme:light){
+  :root{--bg0:#eef0f6;--bg1:#dfe3ee;--card:rgba(255,255,255,.85);--line:rgba(0,0,0,.08);
+  --fg:#12141d;--muted:#5b6478;--ring:rgba(255,59,48,.22);}
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--fg);
+  background:
+    radial-gradient(1100px 600px at 50% -10%,rgba(255,59,48,.18),transparent 60%),
+    radial-gradient(800px 500px at 90% 110%,rgba(255,122,61,.12),transparent 55%),
+    linear-gradient(160deg,var(--bg0),var(--bg1));
+  min-height:100dvh;display:grid;place-items:center;padding:24px;
+  padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));
+}
+.card{
+  width:100%;max-width:360px;text-align:center;
+  background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--line);border-radius:24px;padding:36px 26px 28px;
+  box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+  animation:rise .5s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.badge{
+  width:76px;height:76px;margin:0 auto 18px;border-radius:22px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 10px 26px var(--ring),inset 0 1px 0 rgba(255,255,255,.4);
+}
+.badge svg{width:38px;height:38px;fill:#fff;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+h1{font-size:23px;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
+.sub{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 24px;min-height:20px}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+  font-family:inherit;font-size:17px;font-weight:700;padding:16px;border-radius:15px;text-decoration:none;
+  box-shadow:0 10px 24px var(--ring);transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 14px 30px var(--ring)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn svg{width:18px;height:18px;fill:#fff}
+.alt{display:inline-block;margin-top:14px;color:var(--muted);font-size:13px;font-weight:500;text-decoration:none;border-bottom:1px dashed var(--line);padding-bottom:1px}
+.alt:hover{color:var(--fg)}
+.meta{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;letter-spacing:.01em;word-break:break-all}
+.code{display:inline-block;background:rgba(127,127,127,.14);border:1px solid var(--line);border-radius:8px;padding:3px 8px;font-size:12px;margin-top:6px}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);display:inline-block;vertical-align:-3px;margin-right:7px;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hide{display:none!important}
 </style>
 </head>
 <body>
 <div class="card">
-<h1>Vào VIP Server</h1>
-<p class="sub" id="status">…</p>
-<a class="btn" id="go" href="#">Mở Roblox</a>
-<a class="alt" id="alt" href="#">Thử cách 2 (scheme)</a>
-<div class="meta" id="meta"></div>
+  <div class="badge">
+    <svg viewBox="0 0 24 24"><path d="M13 2 4.5 13.5h6L10 22l9-12h-6z"/></svg>
+  </div>
+  <h1>Vào VIP Server</h1>
+  <p class="sub" id="status"></p>
+  <a class="btn" id="go" href="#"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Mở Roblox</a>
+  <a class="alt hide" id="alt" href="#">Không mở được? Thử cách khác</a>
+  <div class="meta hide" id="meta"></div>
 </div>
 <script>
 (function(){
-var q=new URLSearchParams(location.search);
-var place=(q.get('place')||q.get('placeId')||'').trim();
-var code=(q.get('code')||q.get('linkCode')||'').trim();
-var st=document.getElementById('status'),go=document.getElementById('go'),alt=document.getElementById('alt'),meta=document.getElementById('meta');
-if(!place||!code){
-  st.innerHTML='Thiếu tham số. Mở link dạng:<br><code>?place=&lt;placeId&gt;&code=&lt;linkCode&gt;</code>';
-  return;
-}
-var android=/android/i.test(navigator.userAgent||'');
-var scheme='roblox://placeId='+place+'&linkCode='+code;
-var intent='intent://placeId='+place+'&linkCode='+code+'#Intent;scheme=roblox;package=com.roblox.client;end';
-var primary=android?intent:scheme;
-go.href=primary;alt.href=scheme;go.style.display='block';alt.style.display='block';
-meta.textContent='placeId '+place;
-function fire(u){try{location.href=u;}catch(e){}}
-go.onclick=function(e){e.preventDefault();fire(primary);};
-alt.onclick=function(e){e.preventDefault();fire(scheme);};
-st.textContent='Đang mở Roblox…';
-setTimeout(function(){fire(primary);},500);
-setTimeout(function(){st.textContent='Chưa mở? Bấm nút bên dưới.';},2600);
+  var q=new URLSearchParams(location.search);
+  var place=(q.get('place')||q.get('placeId')||'').trim();
+  var code=(q.get('code')||q.get('linkCode')||'').trim();
+  var st=document.getElementById('status'),go=document.getElementById('go'),alt=document.getElementById('alt'),meta=document.getElementById('meta');
+  if(!place||!code){
+    go.classList.add('hide');
+    st.innerHTML='Thiếu tham số.<br><span class="code">?place=&lt;placeId&gt;&amp;code=&lt;linkCode&gt;</span>';
+    return;
+  }
+  var android=/android/i.test(navigator.userAgent||'');
+  var scheme='roblox://placeId='+place+'&linkCode='+code;
+  var intent='intent://placeId='+place+'&linkCode='+code+'#Intent;scheme=roblox;package=com.roblox.client;end';
+  var primary=android?intent:scheme;
+  go.href=primary;alt.href=scheme;
+  meta.textContent='placeId '+place;
+  alt.classList.remove('hide');meta.classList.remove('hide');
+  function fire(u){try{location.href=u;}catch(e){}}
+  go.addEventListener('click',function(e){e.preventDefault();fire(primary);});
+  alt.addEventListener('click',function(e){e.preventDefault();fire(scheme);});
+  st.innerHTML='<span class="spin"></span>Đang mở Roblox…';
+  setTimeout(function(){fire(primary);},500);
+  setTimeout(function(){st.textContent='Chưa mở? Bấm nút bên dưới.';},2600);
 })();
 </script>
 </body>
